@@ -1,11 +1,22 @@
 <template>
   <div id="app">
     <router-view/>
+    <AppTabbar v-if="$route.meta.isShowTabbar"/>
   </div>
 </template>
 
+<script>
+import AppTabbar from '@/components/AppTabbar'
+
+export default {
+  components: {
+    AppTabbar
+  }
+}
+</script>
+
 <style lang="less">
-#app {
+#app , page {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -8,6 +8,11 @@ import '@/vantui/index.js'
 
 Vue.config.productionTip = false
 
+Vue.filter('filterPrice', value => {
+  const newValue = Number(value)
+  return '￥' + newValue.toFixed(2) + ' 元'
+})
+
 new Vue({
   router,
   store,
