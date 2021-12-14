@@ -40,6 +40,10 @@ const routes = [
         // 子路由path不需要加/ 否则需要连着父级一起写，/home/mypopup
         path: 'popup',
         name: 'popup',
+        meta: {
+          keepAlive: true,
+          isUseCache: false
+        },
         component: () => import(/* webpackChunkName: "Mypopup" */ '../views/Mypopup.vue')
       }
     ]
@@ -99,7 +103,13 @@ router.beforeEach((to, from, next) => {
       // 因为router/index.js没有this
       Vue.prototype.$toast.fail('请先登陆')
       setTimeout(() => {
-        next('/user')
+        next({
+          path: '/user',
+          // 附带参数登陆完跳转回to页面
+          query: {
+            redirect: to.fullPath
+          }
+        })
       }, 1000)
     } else {
       next()

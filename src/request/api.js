@@ -26,3 +26,18 @@ export const relatedProductsData = (params) => request.get('/goods/related', { p
 
 // 购物车产品数量数据
 export const cartNumbersData = () => request.get('/cart/goodscount')
+
+// 加入购物车数据
+export const addCartData = (params) => request.post('/cart/add', params)
+
+// 购物车商品数据
+export const CartListData = () => request.get('/cart/index')
+
+// 购物车点击切换商品选中状态
+export const CartCheckedData = (params) => request.post('/cart/checked', params)
+
+// 购物车商品步进器数量编辑
+export const CartStepNumData = (params) => request.post('/cart/update', params)
+
+// 购物车商品删除
+export const CartDeleteData = (params) => request.post('/cart/delete', params)

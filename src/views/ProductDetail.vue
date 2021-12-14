@@ -46,13 +46,16 @@
     </div>
     <!-- sku加入购物车弹出模块 -->
     <van-sku
+      :reset-selected-sku-on-hide='true'
+      :reset-stepper-on-hide='true'
       v-model="show"
       :sku="sku"
       :goods="goods"
       :hide-stock="sku.hide_stock"
+      ref="sku"
     />
     <Product :goodsList="goodsList" style="background: #fff"/>
-    <MyGoodsAction @addToCart="addToCart"/>
+    <MyGoodsAction @addToCart="addToCart" :badge="badge"/>
   </div>
 </template>
 
@@ -60,7 +63,7 @@
 import Tips from '@/components/Tips'
 import MyGoodsAction from '@/components/MyGoodsAction'
 import Product from '@/components/Product'
-import { productDetailData, relatedProductsData } from '@/request/api.js'
+import { productDetailData, relatedProductsData, addCartData, cartNumbersData } from '@/request/api.js'
 export default {
   data () {
     return {
@@ -82,13 +85,16 @@ export default {
       info: {}, // 产品明细
       attribute: [], // 商品参数
       issue: [], // 常见问题数据
-      goodsList: [] // 相关产品数据
+      goodsList: [], // 相关产品数据
+      productList: [], // productList
+      badge: 0 // 购物车数量徽标
     }
   },
   components: {
     Tips, Product, MyGoodsAction
   },
   created () {
+    // console.log(this.$route)
     // 商品详情数据
     productDetailData(
       {
@@ -97,7 +103,7 @@ export default {
     ).then(res => {
       if (res.errno === 0) {
         // console.log(res.data)
-        const { gallery, info, attribute, issue } = res.data
+        const { gallery, info, attribute, issue, productList } = res.data
         this.gallery = gallery
         this.info = info
         this.attribute = attribute
@@ -108,6 +114,8 @@ export default {
         this.goods.picture = info.list_pic_url
         this.sku.price = info.retail_price
         this.sku.stock_num = info.goods_number
+        // 加入购物车所需要的productId
+        this.productList = productList
       }
     })
     // 相关产品数据
@@ -122,12 +130,49 @@ export default {
         this.goodsList = goodsList
       }
     })
+    // 购物车数量图标
+    const token = localStorage.getItem('token')
+    if (token) {
+      cartNumbersData().then(res => {
+        if (res.errno === 0) {
+          // console.log(res.data)
+          const { cartTotal } = res.data
+          this.badge = cartTotal.goodsCount
+        }
+      })
+    }
   },
   methods: {
     // 点击加入购物车触发
     addToCart () {
       if (this.show) {
-        console.log('成功加入购物车')
+        const token = localStorage.getItem('token')
+        if (token) {
+          addCartData({
+            goodsId: this.$route.query.id,
+            productId: this.productList[0].id,
+            number: this.$refs.sku.getSkuData().selectedNum
+          }).then(res => {
+            if (res.errno === 0) {
+              this.badge = res.data.cartTotal.goodsCount
+              this.$toast.success('成功加入购物车')
+              this.show = false
+            }
+          })
+        } else {
+          this.$toast({
+            message: '请先登陆',
+            type: 'fail',
+            onClose: () => {
+              this.$router.push({
+                path: '/user',
+                query: {
+                  redirect: this.$route.fullPath
+                }
+              })
+            }
+          })
+        }
       } else {
         this.show = true
       }

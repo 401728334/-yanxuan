@@ -15,7 +15,7 @@
     <!-- 搜索联想词模块 -->
     <ProductList v-else-if="showBlock === 2" :arrList="arrList" @cellClick="cellClick"/>
     <!-- 产品模块 -->
-    <ProductModule v-else :filterCategory="filterCategory" :goodsList="goodsList" @cateSelected="cateSelected" @priceSelected="priceSelected" />
+    <ProductModule v-else :filterCategory="filterCategory" :goodsList="goodsList" @cateSelected="cateSelected" @priceSelected="priceSelected"/>
   </div>
 </template>
 

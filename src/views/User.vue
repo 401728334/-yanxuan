@@ -101,6 +101,20 @@ export default {
           }, 1000)
         }
       })
+      // 判断是否需要跳转到前一页面
+      if (this.$route.query.redirect) {
+        setTimeout(() => {
+          this.$toast({
+            message: '正在跳转页面',
+            type: 'loading',
+            onClose: () => {
+              this.$router.push({
+                path: this.$route.query.redirect
+              })
+            }
+          })
+        }, 2000)
+      }
     },
     // 关闭登录框
     showLogin () {

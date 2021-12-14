@@ -13,5 +13,8 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    // 'no-unneeded-ternary': [0, {   // 当存在更简单的替代方案时，不允许三元运算符
+    //   'defaultAssignment': true
+    //  }]
   }
 }

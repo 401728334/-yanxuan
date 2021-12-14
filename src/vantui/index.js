@@ -4,9 +4,16 @@ import {
   List, Col, Row, Toast, Cell, Swipe, SwipeItem,
   Tabbar, TabbarItem, Tag, Icon, DropdownMenu,
   DropdownItem, Empty, GoodsAction, GoodsActionIcon,
-  GoodsActionButton, Sku
+  GoodsActionButton, Sku, Checkbox, CheckboxGroup,
+  Card, SubmitBar, Stepper, SwipeCell
 } from 'vant'
+Vue.use(SwipeCell)
+Vue.use(Stepper)
+Vue.use(Card)
 Vue.use(Sku)
+Vue.use(SubmitBar)
+Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
 Vue.use(Button)
 Vue.use(Search)
 Vue.use(Swipe)

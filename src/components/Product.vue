@@ -36,7 +36,7 @@ div {
   background-color: #efefef;
 }
 ul {
-  margin: 2%;
+  // margin: 2%;
   padding: .1rem 2%;
   display: flex;
   justify-content: space-between;
